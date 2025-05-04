@@ -1,0 +1,51 @@
+﻿  WindowPainter.cpp
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(92,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(93,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(96,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(101,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(105,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(106,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(109,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(113,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(114,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(120,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(121,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(124,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(125,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(128,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(129,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(133,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(134,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(137,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(138,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(141,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(142,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(148,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(149,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(153,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(157,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(161,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(162,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(165,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(166,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(170,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(205,44): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(205,44): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(205,66): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(205,66): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(246,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(246,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(251,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(251,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(266,34): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(266,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(266,57): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(266,57): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(267,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(272,22): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(282,31): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(308,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(309,47): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(309,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\WindowPainter.cpp(320,14): warning C4305: 'initializing': truncation from 'double' to 'float'
+  PlantLife.vcxproj -> C:\Users\CathelRobertson\source\ownRepos\PlantLife\x64\Debug\PlantLife.exe
