@@ -18,7 +18,7 @@ typedef struct Sun
 
 typedef struct BezierSeg
 {
-    SDL_Point pStart{ 0,0 };
-    SDL_Point pCtrl{ 0,0 };
-    SDL_Point pEnd{ 0,0 };
+    SDL_FPoint pStart{ 0,0 };
+    SDL_FPoint pCtrl{ 0,0 };
+    SDL_FPoint pEnd{ 0,0 };
 } BezierSeg;

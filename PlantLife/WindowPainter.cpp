@@ -242,12 +242,17 @@ bool WindowPainter::RenderSplodge( )
         {
             if (this->circleRef16[x][y] == 2)
             {
-                SDL_SetRenderDrawColor(this->wRenderer, 150, 150, 70, SDL_ALPHA_OPAQUE);
+                SDL_SetRenderDrawColor(this->wRenderer, 140, 100, 100, SDL_ALPHA_OPAQUE);
+                SDL_RenderPoint(this->wRenderer, x, y);
+            }
+            else if (this->circleRef16[x][y] == 1)
+            {
+                SDL_SetRenderDrawColor(this->wRenderer, 30, 30, 60, SDL_ALPHA_OPAQUE);
                 SDL_RenderPoint(this->wRenderer, x, y);
             }
             else if (this->circleRef16[x][y] == 0)
             {
-                SDL_SetRenderDrawColor(this->wRenderer, 150, 150, 70, SDL_ALPHA_TRANSPARENT);
+                SDL_SetRenderDrawColor(this->wRenderer, 140, 100, 100, SDL_ALPHA_TRANSPARENT);
                 SDL_RenderPoint(this->wRenderer, x, y);
             }
         }
@@ -265,6 +270,8 @@ void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSe
 {
     SDL_FRect toDraw = { 0,0,this->splodgeStartSize,this->splodgeStartSize };
     float distStartToEnd= sqrt(pow((seg[numSegs-1].pEnd.y - seg[0].pStart.y), 2) + pow((seg[numSegs-1].pEnd.x - seg[0].pStart.x), 2));
+    //Quick way to get the gradient
+    SDL_FPoint prevPoint = seg[0].pStart;
     //Draw each seg
     for (int i = 0; i < numSegs; i++)
     {
@@ -277,6 +284,12 @@ void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSe
             toDraw.x = ((1 - t) * (1 - t) * seg[i].pStart.x) + (2 * t * (1 - t) * seg[i].pCtrl.x) + ((t * t) * seg[i].pEnd.x);
             toDraw.y = ((1 - t) * (1 - t) * seg[i].pStart.y) + (2 * t * (1 - t) * seg[i].pCtrl.y) + ((t * t) * seg[i].pEnd.y);
 
+            //Gives approximate gradient of line at this point with minimal calculation
+            float gradient = (float)(toDraw.y - (float)prevPoint.y) / (float)(toDraw.x - (float)prevPoint.x);
+            double angle = (180/3.141)*atan(gradient);
+            prevPoint.x = toDraw.x;
+            prevPoint.y = toDraw.y;
+
             //This section is concerned with thickness - there is a problem here for very deformed curves - think there will be anomolies
             //Possible I cold set up a function that approximates this to start, rather than do it at every call...
             float distFromBase= sqrt(pow((toDraw.x - seg[0].pStart.x), 2) + pow((toDraw.y - seg[0].pStart.y), 2));
@@ -284,7 +297,8 @@ void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSe
             ratio = ((1 - ratio) * endRatio) + (ratio * strtRatio);
             toDraw.w = ratio * this->splodgeStartSize;
             toDraw.h = ratio * this->splodgeStartSize;
-            SDL_RenderTexture(this->wRenderer, this->splodge, nullptr, &toDraw);
+            
+            SDL_RenderTextureRotated(this->wRenderer, this->splodge, nullptr, &toDraw, angle, nullptr,SDL_FLIP_NONE);
         }
     }
 }
@@ -294,23 +308,25 @@ void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSe
 //We need the RenderBezier function to be fully re-usable - I should be able to pass in a start and end ratio
 void WindowPainter::RenderTestLine()
 {
-    SDL_Texture* lineDot = SDL_CreateTexture(this->wRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 3, 3);
 
     RenderSplodge();
     BezierSeg* segs = new BezierSeg[2];
-    segs[0] = { {100,400},{120,350},{100,300} };
+    segs[0] = { {100,600},{150,450},{100,300} };
     segs[1] = { {100,300},{80,250},{100,200} };
 
     BezierSeg* segB = new BezierSeg;
-    *segB = { {100,300},{75,300},{40,250} };
+    *segB = { {100,300},{60,220},{20,250} };
 
+    BezierSeg* segC = new BezierSeg;
+    *segC = { {100,300},{150,320},{200,250} };
 
-    RenderBezier(this->splodge, segs, 2,1,0.2);
-    RenderBezier(this->splodge, segB, 1, 0.3, 0.1);
+    RenderBezier(this->splodge, segC, 1, 1, 0.1);
+    RenderBezier(this->splodge, segs, 2,3,1);
+    RenderBezier(this->splodge, segB, 1, 1, 0.1);
 
     delete[] segs;
-
-    SDL_DestroyTexture(lineDot);
+    delete segB;
+    delete segC;
 }
 
 

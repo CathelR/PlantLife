@@ -11,8 +11,10 @@
 * Go through and trace error handling
 * Perlin noise for terrain generation
 * IMprove lighting interpolation so it doesnt go dark in the middle - total birghtness should remain even regardless of where light is?
-* Get lining working for bezier curves, using either rotating texture method, or by calculating edge bezier curves. rotating texture may be easier?
 * Get shading working for plants. Drawing a transparent texture over itself provides a potential way to do this.
+*   ->Actually looks liketreating the texture like a ball seen from the top may providea way to do this
+* Figure out objects structure for plants - how do we make the bezier funciton work for this? - we want to be able to layer branches up 
+* ->Perhaps we can use bezier funcitons there too
 */
 
 
