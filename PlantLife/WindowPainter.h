@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include "GardenState.h"
+#include "Models.h"
 #pragma once
 
 class WindowPainter
@@ -12,7 +13,8 @@ public:
 	SDL_Window* window;
 	SDL_Renderer* wRenderer;
 	SDL_Texture* tileTexture;
-	SDL_Texture* splodge; //A splodge is like a splodge of point, used to draw plants
+	SDL_Texture* fillSplodge; //A splodge is like a splodge of point, used to draw plants
+	SDL_Texture* lineSplodge; //A splodge is like a splodge of point, used to draw plants
 
 	
 	
@@ -24,35 +26,19 @@ private:
 	float leftLightCoef=0;
 	float rightLightCoef=0;
 	float topLightCoef = 0;
-	int splodgeStartSize = 16;
-	int circleRef16[16][16] =
-	{
-		
-		{ 0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0 },
-		{ 0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0 },
-		{ 0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0 },
-		{ 0,0,1,2,2,2,2,2,2,2,2,2,2,1,0,0 },
-		{ 0,1,1,2,2,2,2,2,2,2,2,2,2,1,1,0 },
-		{ 0,1,1,2,2,2,2,2,2,2,2,2,2,1,1,0 },
-		{ 1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,1 },
-		{ 1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,1 },
-		{ 1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,1 },
-		{ 1,1,1,2,2,2,2,2,2,2,2,2,2,1,1,1 },
-		{ 0,1,1,2,2,2,2,2,2,2,2,2,2,1,1,0 },
-		{ 0,1,1,2,2,2,2,2,2,2,2,2,2,1,1,0 },
-		{ 0,0,1,2,2,2,2,2,2,2,2,2,2,1,0,0 },
-		{ 0,0,0,2,2,2,2,2,2,2,2,2,2,0,0,0 },
-		{ 0,0,0,0,2,2,2,2,2,2,2,2,0,0,0,0 },
-		{ 0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0 }
-	};
+	int lineSplodgeStartSize = 16;
+	int fillSplodgeStartSize = 9;
+	SplodgeRefs splodgeRefs;
 
-
+	
 	bool PaintGrid(GardenState*);
 	bool RenderTileTexture(GardenState*);
-	bool RenderSplodge();
+	bool RenderLineSplodge();
+	bool RenderFillSplodge();
 	void GetLightingCoefficients(GardenState*);
 	void RenderTestLine();
-	void RenderBezier(SDL_Texture*, BezierSeg*,int, float, float);
+	void RenderBezierOutline(SDL_Texture*, BezierSeg*,int, float, float);
+	void RenderBezierFill(SDL_Texture*, BezierSeg*, int, float, float);
 
 };
 

@@ -1,5 +1,5 @@
 #include <SDL3/SDL.h>
-#include "Models.h"
+#include "GardenStructs.h"
 #pragma once
 
 
@@ -12,6 +12,7 @@ class GardenState
 public:
     
     Sun sun;
+    const int gridSize = 12;
 
     GardenState(int);
     ~GardenState();
@@ -21,6 +22,7 @@ public:
     GridSquare GetGridSquare(int, int);
     int GetTileSize();
     SDL_FPoint ScreenSpaceConvert(SDL_FPoint);
+
     //bool GeneratePlants();
 
 private:
@@ -28,8 +30,7 @@ private:
     //Rain rain;
     //Sun sun;
     //const float gravity{ 9.81 };
-    const int gridSize = 16;
-    GridSquare grid[16][16];
+    GridSquare grid[12][12];
     int tileSize;
     //Array of plants, which will
 

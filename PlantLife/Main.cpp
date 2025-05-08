@@ -9,12 +9,16 @@
 //TO DO:
 /*
 * Go through and trace error handling
-* Perlin noise for terrain generation
-* IMprove lighting interpolation so it doesnt go dark in the middle - total birghtness should remain even regardless of where light is?
-* Get shading working for plants. Drawing a transparent texture over itself provides a potential way to do this.
-*   ->Actually looks liketreating the texture like a ball seen from the top may providea way to do this
-* Figure out objects structure for plants - how do we make the bezier funciton work for this? - we want to be able to layer branches up 
-* ->Perhaps we can use bezier funcitons there too
+
+* 
+* Game Plan:
+* ->Implement Perlin noise for terrain gen
+* ->Fix lighting on terrain so its constant - will this look wierd with how plants are done? If anythjing will look less weird I hop..
+* ->Finalise PLant structure and build example/test plant
+* ->Use this to finalise shading/drawing method for braches
+* ->Try to simplify calculations wherever possible - remember - every little helps
+* ->physics I guess
+* ->Lystems
 */
 
 
@@ -23,7 +27,7 @@
 
 /* Constants */
 //Screen dimension constants
-constexpr int kScreenWidth{ 1600 };
+constexpr int kScreenWidth{ 1800 };
 constexpr int kScreenHeight{ 900 };
 
 
@@ -54,7 +58,7 @@ int main(int argc, char* argv[]) {
         SDL_Event e;
         SDL_zero(e);
         
-        WorldManager world(kScreenWidth,kScreenHeight, 64);
+        WorldManager world(kScreenWidth,kScreenHeight, 96);
 
         float mouseX = -1.f, mouseY = -1.f;
 

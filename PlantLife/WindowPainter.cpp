@@ -2,7 +2,7 @@
 #include <SDL3/SDL.h>
 #include "GardenState.h"
 #include "WindowPainter.h"
-#include "Models.h"
+#include "RenderStructs.h"
 
 #define grn_interp(ratio) (float)((0.7*ratio)+0.3)
 #define red_interp(ratio) (float)((0.3*ratio)+0.1)
@@ -24,21 +24,27 @@ WindowPainter::WindowPainter(int screenResX, int screenResY, int tileSize)
     {
         SDL_Log("Failed To Create Tile Texture: %s\n", SDL_GetError());
     }
-    this->splodge= SDL_CreateTexture(this->wRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, this->splodgeStartSize, this->splodgeStartSize);
-    if (this->splodge == nullptr)
+    this->lineSplodge = SDL_CreateTexture(this->wRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, this->lineSplodgeStartSize, this->lineSplodgeStartSize);
+    if (this->lineSplodge == nullptr)
     {
         SDL_Log("Failed To Create Splodge Texture: %s\n", SDL_GetError());
     }
-
+    this->fillSplodge = SDL_CreateTexture(this->wRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, this->fillSplodgeStartSize, this->fillSplodgeStartSize);
+    if (this->fillSplodge == nullptr)
+    {
+        SDL_Log("Failed To Create Splodge Texture: %s\n", SDL_GetError());
+    }
 }
 
 WindowPainter::~WindowPainter()
 {
-    SDL_DestroyTexture(this->splodge);
+    SDL_DestroyTexture(this->lineSplodge);
+    SDL_DestroyTexture(this->fillSplodge);
     SDL_DestroyTexture(this->tileTexture);
     SDL_DestroyRenderer(this->wRenderer);
     SDL_DestroyWindow(this->window);
 }
+
 
 bool WindowPainter::PerformRenderCycle(GardenState* garden)
 {
@@ -203,9 +209,9 @@ bool WindowPainter::RenderTileTexture(GardenState* garden)
 bool WindowPainter::PaintGrid(GardenState* garden)
 {
     SDL_FRect rect{ 0,0,garden->GetTileSize(),garden->GetTileSize() };
-    for (int y = 0; y < 16; y++)
+    for (int y = 0; y < garden->gridSize; y++)
     {
-        for (int x = 0; x < 16; x++)
+        for (int x = 0; x < garden->gridSize; x++)
         {
             GridSquare crSquare = garden->GetGridSquare(x, y);
             rect.x = crSquare.screenCoord.x +( screenResX/2)-32;
@@ -225,39 +231,30 @@ bool WindowPainter::PaintGrid(GardenState* garden)
 }
 
 
-bool WindowPainter::RenderSplodge( )
+bool WindowPainter::RenderLineSplodge()
 {
-    
-    if (!SDL_SetRenderTarget(this->wRenderer, this->splodge))
+    if (!SDL_SetRenderTarget(this->wRenderer, this->lineSplodge))
     {
-        SDL_Log("Failed to set Render Target to Splodge: %s\n", SDL_GetError());
+        SDL_Log("Failed to set Render Target to LineSplodge: %s\n", SDL_GetError());
         return false;
     }
-    //SDL_SetRenderDrawColor(this->wRenderer, 0, 0, 0, SDL_ALPHA_TRANSPARENT);
     SDL_RenderClear(this->wRenderer);
-    
-    for (int x = 0; x < this->splodgeStartSize;x++)
+    for (int y = 0; y < this->lineSplodgeStartSize; y++)
     {
-        for (int y = 0;y< this->splodgeStartSize;y++)
+        for (int x = 0; x < this->lineSplodgeStartSize; x++)
         {
-            if (this->circleRef16[x][y] == 2)
-            {
-                SDL_SetRenderDrawColor(this->wRenderer, 140, 100, 100, SDL_ALPHA_OPAQUE);
-                SDL_RenderPoint(this->wRenderer, x, y);
-            }
-            else if (this->circleRef16[x][y] == 1)
+            if (this->splodgeRefs.lineSplodgeRef[x][y] == 1)
             {
                 SDL_SetRenderDrawColor(this->wRenderer, 30, 30, 60, SDL_ALPHA_OPAQUE);
                 SDL_RenderPoint(this->wRenderer, x, y);
             }
-            else if (this->circleRef16[x][y] == 0)
+            else if (this->splodgeRefs.lineSplodgeRef[x][y] == 0)
             {
                 SDL_SetRenderDrawColor(this->wRenderer, 140, 100, 100, SDL_ALPHA_TRANSPARENT);
                 SDL_RenderPoint(this->wRenderer, x, y);
             }
         }
     }
-    
     if (!SDL_SetRenderTarget(this->wRenderer, nullptr))
     {
         SDL_Log("Failed to reset render target to window from splodge texture: %s\n", SDL_GetError());
@@ -266,16 +263,66 @@ bool WindowPainter::RenderSplodge( )
     return true;
 }
 
-void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSegs, float strtRatio, float endRatio )
+
+
+
+bool WindowPainter::RenderFillSplodge(/*Passin coloura*/)
 {
-    SDL_FRect toDraw = { 0,0,this->splodgeStartSize,this->splodgeStartSize };
+    if (!SDL_SetRenderTarget(this->wRenderer, this->fillSplodge))
+    {
+        SDL_Log("Failed to set Render Target to FillSplodge: %s\n", SDL_GetError());
+        return false;
+    }
+    SDL_RenderClear(this->wRenderer);
+    for (int y = 0; y < this->fillSplodgeStartSize; y++)
+    {
+        for (int x = 0; x < this->fillSplodgeStartSize; x++)
+        {
+            
+            if (this->splodgeRefs.fillSplodgeRef[y][x] == 1)
+            {
+                SDL_SetRenderDrawColor(this->wRenderer, 90, 85, 70, SDL_ALPHA_OPAQUE);
+                SDL_RenderPoint(this->wRenderer, x, y);
+            }
+            else if (this->splodgeRefs.fillSplodgeRef[y][x] == 2)
+            {
+                SDL_SetRenderDrawColor(this->wRenderer, 140, 110, 100, SDL_ALPHA_OPAQUE);
+                SDL_RenderPoint(this->wRenderer, x, y);
+            }
+            else if (this->splodgeRefs.fillSplodgeRef[y][x] == 3)
+            {
+                SDL_SetRenderDrawColor(this->wRenderer, 180, 150, 95, SDL_ALPHA_OPAQUE);
+                SDL_RenderPoint(this->wRenderer, x, y);
+            }
+            else if (this->splodgeRefs.fillSplodgeRef[y][x] == 0)
+            {
+                SDL_SetRenderDrawColor(this->wRenderer, 140, 110, 100, SDL_ALPHA_TRANSPARENT);
+                SDL_RenderPoint(this->wRenderer, x, y);
+            }
+        }
+    }
+    if (!SDL_SetRenderTarget(this->wRenderer, nullptr))
+    {
+        SDL_Log("Failed to reset render target to window from splodge texture: %s\n", SDL_GetError());
+        return false;
+    }
+    return true;
+}
+
+//Going forward this should utilittse a strategy pattern - this is just fo tesitng
+//There is a relationship between the angle of the bezier and the exact rotation of the splodge that makes it look as if its lit from top or botton - use..
+void WindowPainter::RenderBezierFill(SDL_Texture* splodge, BezierSeg* seg, int numSegs, float strtRatio, float endRatio )
+{
+    int splodgeBaseSize = splodge->w;
+    SDL_FRect toDraw = { 0,0,splodgeBaseSize,splodgeBaseSize };
     float distStartToEnd= sqrt(pow((seg[numSegs-1].pEnd.y - seg[0].pStart.y), 2) + pow((seg[numSegs-1].pEnd.x - seg[0].pStart.x), 2));
     //Quick way to get the gradient
     SDL_FPoint prevPoint = seg[0].pStart;
     //Draw each seg
     for (int i = 0; i < numSegs; i++)
     {
-        //pointSep used to work out how many splodges to draw
+        //pointSep used to work out how many splodges to draw - needs to be optimised - easier calc, and more reliable 
+        //Could be made more accurate by going strt->control->end, if I had a rapid calc
         int pointSep = sqrt(pow((seg[i].pEnd.y - seg[i].pStart.y),2) + pow((seg[i].pEnd.x - seg[i].pStart.x),2));
         for (int p = 0; p < pointSep; p++)
         {
@@ -285,6 +332,7 @@ void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSe
             toDraw.y = ((1 - t) * (1 - t) * seg[i].pStart.y) + (2 * t * (1 - t) * seg[i].pCtrl.y) + ((t * t) * seg[i].pEnd.y);
 
             //Gives approximate gradient of line at this point with minimal calculation
+            //About as efficient as im going to get it
             float gradient = (float)(toDraw.y - (float)prevPoint.y) / (float)(toDraw.x - (float)prevPoint.x);
             double angle = (180/3.141)*atan(gradient);
             prevPoint.x = toDraw.x;
@@ -295,34 +343,90 @@ void WindowPainter::RenderBezier(SDL_Texture* lineTex, BezierSeg* seg, int numSe
             float distFromBase= sqrt(pow((toDraw.x - seg[0].pStart.x), 2) + pow((toDraw.y - seg[0].pStart.y), 2));
             float ratio = 1-(distFromBase / distStartToEnd);
             ratio = ((1 - ratio) * endRatio) + (ratio * strtRatio);
-            toDraw.w = ratio * this->splodgeStartSize;
-            toDraw.h = ratio * this->splodgeStartSize;
+            toDraw.w = ratio * splodgeBaseSize;
+            toDraw.h = ratio * splodgeBaseSize;
             
-            SDL_RenderTextureRotated(this->wRenderer, this->splodge, nullptr, &toDraw, angle, nullptr,SDL_FLIP_NONE);
+            //SDL_RenderTextureRotated(this->wRenderer, splodge, nullptr, &toDraw, angle, nullptr,SDL_FLIP_NONE);
+            //SDL_RenderTexture(this->wRenderer, splodge, nullptr, &toDraw);
+            if (numSegs == 1)
+            {
+                SDL_RenderTextureRotated(this->wRenderer, splodge, nullptr, &toDraw,105 , nullptr, SDL_FLIP_NONE);
+            }
+            else
+            {
+                SDL_RenderTextureRotated(this->wRenderer, splodge, nullptr, &toDraw, 5, nullptr, SDL_FLIP_NONE);
+            }
+            
         }
     }
 }
 
-//Have my original bezier structure, then adjust a copy based on draw width to get the line bezier for either side
+
+void WindowPainter::RenderBezierOutline(SDL_Texture* splodge, BezierSeg* seg, int numSegs, float strtRatio, float endRatio)
+{
+    int splodgeBaseSize = splodge->w;
+    SDL_FRect toDraw = { 0,0,splodgeBaseSize,splodgeBaseSize };
+    float distStartToEnd = sqrt(pow((seg[numSegs - 1].pEnd.y - seg[0].pStart.y), 2) + pow((seg[numSegs - 1].pEnd.x - seg[0].pStart.x), 2));
+    //Quick way to get the gradient
+    SDL_FPoint prevPoint = seg[0].pStart;
+    //Draw each seg
+    for (int i = 0; i < numSegs; i++)
+    {
+        //pointSep used to work out how many splodges to draw
+        int pointSep = sqrt(pow((seg[i].pEnd.y - seg[i].pStart.y), 2) + pow((seg[i].pEnd.x - seg[i].pStart.x), 2));
+        for (int p = 0; p < pointSep; p++)
+        {
+            float t = (float)p / (float)pointSep;
+            //Gets point on bezier curve
+            toDraw.x = ((1 - t) * (1 - t) * seg[i].pStart.x) + (2 * t * (1 - t) * seg[i].pCtrl.x) + ((t * t) * seg[i].pEnd.x);
+            toDraw.y = ((1 - t) * (1 - t) * seg[i].pStart.y) + (2 * t * (1 - t) * seg[i].pCtrl.y) + ((t * t) * seg[i].pEnd.y);
+
+            //Gives approximate gradient of line at this point with minimal calculation
+            float gradient = (float)(toDraw.y - (float)prevPoint.y) / (float)(toDraw.x - (float)prevPoint.x);
+            double angle = (180 / 3.141) * atan(gradient);
+            prevPoint.x = toDraw.x;
+            prevPoint.y = toDraw.y;
+
+            //This section is concerned with thickness - there is a problem here for very deformed curves - think there will be anomolies
+            //Possible I cold set up a function that approximates this to start, rather than do it at every call...
+            float distFromBase = sqrt(pow((toDraw.x - seg[0].pStart.x), 2) + pow((toDraw.y - seg[0].pStart.y), 2));
+            float ratio = 1 - (distFromBase / distStartToEnd);
+            ratio = ((1 - ratio) * endRatio) + (ratio * strtRatio);
+            toDraw.w = ratio * splodgeBaseSize;
+            toDraw.h = ratio * splodgeBaseSize;
+
+            SDL_RenderTextureRotated(this->wRenderer, splodge, nullptr, &toDraw, angle, nullptr,SDL_FLIP_NONE);
+           
+        }
+    }
+}
+
 //For shading, there was an interesting effect caused by having part of the texture transparent, and rendering over itself
-//We need the RenderBezier function to be fully re-usable - I should be able to pass in a start and end ratio
+//
+//Could draw in 3 layers - base, shading,line. Shading achieved by rotating a texture over itelf
 void WindowPainter::RenderTestLine()
 {
 
-    RenderSplodge();
+    RenderLineSplodge();
+    RenderFillSplodge();
     BezierSeg* segs = new BezierSeg[2];
     segs[0] = { {100,600},{150,450},{100,300} };
     segs[1] = { {100,300},{80,250},{100,200} };
 
     BezierSeg* segB = new BezierSeg;
-    *segB = { {100,300},{60,220},{20,250} };
+    *segB = { {100,300},{135,300},{170,250} };
 
     BezierSeg* segC = new BezierSeg;
-    *segC = { {100,300},{150,320},{200,250} };
+    *segC = { {100,600},{135,600},{210,520} };
+    
+    RenderBezierFill(this->fillSplodge, segC, 1, 1.1, 0.2);
+    RenderBezierOutline(this->lineSplodge, segC, 1, 0.5, 0.1);
 
-    RenderBezier(this->splodge, segC, 1, 1, 0.1);
-    RenderBezier(this->splodge, segs, 2,3,1);
-    RenderBezier(this->splodge, segB, 1, 1, 0.1);
+    RenderBezierFill(this->fillSplodge, segs, 2, 3.5, 0.5);
+    RenderBezierOutline(this->lineSplodge, segs, 2,2,0.25);
+
+    RenderBezierFill(this->fillSplodge, segB, 1, 1.1, 0.2);
+    RenderBezierOutline(this->lineSplodge, segB, 1, 0.5, 0.1);
 
     delete[] segs;
     delete segB;
