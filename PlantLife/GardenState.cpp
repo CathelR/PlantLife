@@ -1,5 +1,6 @@
 #include <SDL3/SDL.h>
 #include "GardenState.h"
+#include "PerlinEngine.h"
 #include <random>
 #pragma once
 
@@ -24,37 +25,26 @@ GardenState::~GardenState()
 	
 }
 
-//Re-implement this using a noise function - much nicah 
+
 void GardenState::GenerateGrid()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> scalarDistrib(3, 8);
-	std::uniform_int_distribution<> modifierDistrib(1, 4);
-	float scalar = scalarDistrib(gen);
-	float modifier = modifierDistrib(gen);
-
-	int* xPattern = GetFunctionPattern();
-	int* yPattern = GetFunctionPattern();
-
-	for (int y = 0; y < this->gridSize; y++)
+	PerlinEngine perlinEngine;
+	for (int y = 0; y < gridSize; y++)
 	{
-		for (int x = 0; x < this->gridSize; x++)
+		for (int x = 0; x < gridSize; x++)
 		{
 			this->grid[x][y].baseCoord.x = x;
 			this->grid[x][y].baseCoord.y = y;
 			this->grid[x][y].screenCoord = ScreenSpaceConvert(this->grid[x][y].baseCoord);
-
-			float xHeight = GetFunctionHeight(x, scalar, modifier, xPattern);
-			float yHeight = GetFunctionHeight(y, scalar, modifier, yPattern);
-			this->grid[x][y].height = (xHeight + yHeight) / 2;
-			this->grid[x][y].screenCoord.y +=  this->grid[x][y].height;
+			//We interpolate from [0->gridSize] to [0->4] for our sample point
+			float lerpedY = ((float)4 / (float)gridSize) * (float)y;
+			float lerpedX = ((float)4 / (float)gridSize) * (float)x;
+			this->grid[x][y].height = perlinEngine.Noise(lerpedX, lerpedY);
+			this->grid[x][y].screenCoord.y += (this->grid[x][y].height*10) + 3*(float)x + 3*(float)y;
 			this->grid[x][y].centerPos.x = this->grid[x][y].screenCoord.x + this->tileSize / 2;
 			this->grid[x][y].centerPos.y = this->grid[x][y].screenCoord.y + this->tileSize / 4;
-			}
+		}
 	}
-	delete[] xPattern;
-	delete[] yPattern;
 }
 
 SDL_FPoint GardenState::ScreenSpaceConvert(SDL_FPoint baseCoord)
@@ -76,8 +66,7 @@ GridSquare GardenState::GetGridSquare(int x, int y)
 }
 
 
-//Static Utility Funciton Definition
-/*===================================================================================================================*/
+/*
 
 //This method takes a pattern, and uses this to cyclically "build" a function.
 //This basically means that the funciton used to generate the X and Y heights is randomised for each generation, but consistent throughout the generation
@@ -124,3 +113,37 @@ static int* GetFunctionPattern()
 	}
 	return funcPattern;
 }
+
+
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> scalarDistrib(3, 8);
+	std::uniform_int_distribution<> modifierDistrib(1, 4);
+	float scalar = scalarDistrib(gen);
+	float modifier = modifierDistrib(gen);
+
+	int* xPattern = GetFunctionPattern();
+	int* yPattern = GetFunctionPattern();
+
+	for (int y = 0; y < this->gridSize; y++)
+	{
+		for (int x = 0; x < this->gridSize; x++)
+		{
+			this->grid[x][y].baseCoord.x = x;
+			this->grid[x][y].baseCoord.y = y;
+			this->grid[x][y].screenCoord = ScreenSpaceConvert(this->grid[x][y].baseCoord);
+
+			float xHeight = GetFunctionHeight(x, scalar, modifier, xPattern);
+			float yHeight = GetFunctionHeight(y, scalar, modifier, yPattern);
+			this->grid[x][y].height = (xHeight + yHeight) / 2;
+			this->grid[x][y].screenCoord.y += this->grid[x][y].height;
+			this->grid[x][y].centerPos.x = this->grid[x][y].screenCoord.x + this->tileSize / 2;
+			this->grid[x][y].centerPos.y = this->grid[x][y].screenCoord.y + this->tileSize / 4;
+		}
+	}
+	delete[] xPattern;
+	delete[] yPattern;
+}
+
+*/

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include "GardenState.h"
-#include "Models.h"
+#include "GardenStructs.h"
+#include "RenderStructs.h"
 #pragma once
 
 class WindowPainter

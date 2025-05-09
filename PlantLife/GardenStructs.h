@@ -3,66 +3,25 @@
 
 typedef struct GridSquare
 {
-    SDL_FPoint baseCoord;
-    SDL_FPoint screenCoord;
-    SDL_FPoint centerPos;
-    float height;
-    //Plant* plant;
+	SDL_FPoint baseCoord;
+	SDL_FPoint screenCoord;
+	SDL_FPoint centerPos;
+	float height;
+	//Plant* plant;
 } GridSquare;
 
 typedef struct Sun
 {
-    SDL_FPoint screenPos;
-    float brightness;
+	SDL_FPoint screenPos;
+	float brightness;
 } Sun;
 
 typedef struct BezierSeg
 {
-    SDL_FPoint pStart{ 0,0 };
-    SDL_FPoint pCtrl{ 0,0 };
-    SDL_FPoint pEnd{ 0,0 };
+	SDL_FPoint pStart{ 0,0 };
+	SDL_FPoint pCtrl{ 0,0 };
+	SDL_FPoint pEnd{ 0,0 };
 } BezierSeg;
-
-
-
-typedef struct SplodgeRefs
-{
-    const int lineSplodgeRef[16][16] =
-	{
-
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0 },
-		{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-		{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-		{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-		{ 1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-	};
-
-	const int fillSplodgeRef[16][16] =
-	{
-
-		{ 0,0,0,2,2,2,0,0,0 },
-		{ 0,2,2,2,2,2,2,2,0 },
-		{ 0,2,2,2,2,2,2,2,0 },
-		{ 1,1,2,2,2,2,2,1,1 },
-		{ 1,1,2,2,2,2,2,1,1 },
-		{ 1,1,2,2,2,2,2,1,1 },
-		{ 0,1,2,2,2,2,2,1,0 },
-		{ 0,2,2,3,3,3,2,2,0 },
-		{ 0,0,0,3,3,3,0,0,0 }
-
-	};
-}SplodgeRefs;
 
 
 //Using parent and startT, it will be possible tog et the actual starting coord of a branch, without it having to be on a knuckle
@@ -99,3 +58,4 @@ So a plant has a build order for its components
 
 
 */
+
