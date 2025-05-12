@@ -5,7 +5,7 @@
 
 WorldManager::WorldManager(int screenResX, int screenResY, int tileSize)
 {
-	this->garden = new GardenState(tileSize);
+	this->garden = new GardenState(screenResX,screenResY,tileSize);
 	this->wPainter = new WindowPainter(screenResX, screenResY, tileSize);
 }
 

@@ -7,7 +7,6 @@ typedef struct GridSquare
 	SDL_FPoint screenCoord;
 	SDL_FPoint centerPos;
 	float height;
-	//Plant* plant;
 } GridSquare;
 
 typedef struct Sun
@@ -31,8 +30,11 @@ typedef struct Branch
 	Branch* parent;
 	Branch* children;
 	float startT;
+	int startSegIndx;
 	BezierSeg* bSegs;
 	int numSegs;
+	float stiffness;
+	float defaultPos;
 }Branch;
 
 //So a plant will be a collection of branches - need tree structure for engine - parents must be adjusted first
@@ -42,14 +44,16 @@ typedef struct Branch
 typedef struct Plant
 {
 	SDL_FPoint rootPos;
-	Branch* rootBranches;
+	Branch* main;
 	int numRoots;
-	//Used for rendering, we interleave branch render order to get branches in front and behind
+	//A flat array whic orders the individual branches - we don't draw them in tree order
 	Branch* branchOrder;
 	int totalNumBranches;
 	SDL_Color branchCol;
 	SDL_Color leafCol;
+
 }Plant;
+
 
 /*
 So a plant has a build order for its components

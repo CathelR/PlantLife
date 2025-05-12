@@ -13,26 +13,30 @@ class GardenState
 public:
     
     Sun sun;
-    const int gridSize = 12;
+    const int gridSize = 10;
+    Plant* plants;
+    
 
-    GardenState(int);
+    GardenState(int,int,int);
     ~GardenState();
-
-    void GenerateGrid();
-
-    GridSquare GetGridSquare(int, int);
+    GridSquare* GetGridSquare(int, int);
     int GetTileSize();
     SDL_FPoint ScreenSpaceConvert(SDL_FPoint);
+    void GenerateGrid();
+    bool GeneratePlants();
+    
 
-    //bool GeneratePlants();
+    
 
 private:
     //Wind wind;
     //Rain rain;
     //Sun sun;
     //const float gravity{ 9.81 };
-    GridSquare grid[12][12];
+    GridSquare grid[10][10];
     int tileSize;
+    int screenSizeX;
+    int screenSizeY;
     //Array of plants, which will
 
 };
@@ -57,10 +61,6 @@ class Wind
 };
 
 
-class Plant
-{
-
-};
 */
 
 

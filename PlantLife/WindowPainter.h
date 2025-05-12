@@ -37,7 +37,8 @@ private:
 	bool RenderLineSplodge();
 	bool RenderFillSplodge();
 	void GetLightingCoefficients(GardenState*);
-	void RenderTestLine();
+	//SDL_Color GetLitColours(SDL_Color, float, float, float);
+	void PaintPlants(GardenState*);
 	void RenderBezierOutline(SDL_Texture*, BezierSeg*,int, float, float);
 	void RenderBezierFill(SDL_Texture*, BezierSeg*, int, float, float);
 

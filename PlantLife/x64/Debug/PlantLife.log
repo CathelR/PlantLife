@@ -1,3 +1,4 @@
-﻿  PerlinEngine.cpp
-C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\PerlinEngine.cpp(10,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+﻿  GardenState.cpp
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\GardenState.cpp(36,35): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\CathelRobertson\source\ownRepos\PlantLife\PlantLife\GardenState.cpp(37,35): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   PlantLife.vcxproj -> C:\Users\CathelRobertson\source\ownRepos\PlantLife\x64\Debug\PlantLife.exe

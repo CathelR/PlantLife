@@ -12,13 +12,13 @@
 
 * 
 * Game Plan:
-* ->Implement Perlin noise for terrain gen
-* ->Fix lighting on terrain so its constant - will this look wierd with how plants are done? If anythjing will look less weird I hop..
+
 * ->Finalise PLant structure and build example/test plant
 * ->Use this to finalise shading/drawing method for braches
 * ->Try to simplify calculations wherever possible - remember - every little helps
 * ->physics I guess
 * ->Lystems
+* * ->Fix lighting on terrain so its constant - will this look wierd with how plants are done? If anythjing will look less weird I hop..
 */
 
 
@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
         SDL_Event e;
         SDL_zero(e);
         
-        WorldManager world(kScreenWidth,kScreenHeight, 96);
+        WorldManager world(kScreenWidth,kScreenHeight, 112);
 
         float mouseX = -1.f, mouseY = -1.f;
 

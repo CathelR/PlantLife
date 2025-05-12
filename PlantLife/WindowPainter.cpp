@@ -62,9 +62,7 @@ bool WindowPainter::PerformRenderCycle(GardenState* garden)
     SDL_RenderClear(this->wRenderer);
     //SDL_SetRenderScale(this->wRenderer, 3, 3);
     PaintGrid(garden);
-    RenderTestLine();
-    //Paint Plants
-
+    PaintPlants(garden);
     if (!SDL_RenderPresent(this->wRenderer))
     {
         SDL_Log("Failure rendering backbuffer to window: %s\n", SDL_GetError());
@@ -213,9 +211,9 @@ bool WindowPainter::PaintGrid(GardenState* garden)
     {
         for (int x = 0; x < garden->gridSize; x++)
         {
-            GridSquare crSquare = garden->GetGridSquare(x, y);
-            rect.x = crSquare.screenCoord.x +( screenResX/2)-32;
-            rect.y = crSquare.screenCoord.y+(screenResX/6);
+            GridSquare* crSquare = garden->GetGridSquare(x, y);
+            rect.x = crSquare->screenCoord.x;
+            rect.y = crSquare->screenCoord.y;
             if (!SDL_RenderTexture(wRenderer, this->tileTexture, nullptr, &rect))
             {
                 SDL_Log("Failed to paint grid to renderer: %s\n", SDL_GetError());
@@ -230,6 +228,15 @@ bool WindowPainter::PaintGrid(GardenState* garden)
     return true;
 }
 
+void WindowPainter::PaintPlants(GardenState* garden)
+{
+    Plant* plant = garden->plants;
+    RenderLineSplodge();
+    RenderFillSplodge();
+    //If plants is not null
+    RenderBezierFill(this->fillSplodge, plant->main->bSegs, 2, 1.1, 0.2);
+    RenderBezierOutline(this->lineSplodge, plant->main->bSegs, 2, 0.5, 0.1);
+}
 
 bool WindowPainter::RenderLineSplodge()
 {
@@ -401,37 +408,7 @@ void WindowPainter::RenderBezierOutline(SDL_Texture* splodge, BezierSeg* seg, in
     }
 }
 
-//For shading, there was an interesting effect caused by having part of the texture transparent, and rendering over itself
-//
-//Could draw in 3 layers - base, shading,line. Shading achieved by rotating a texture over itelf
-void WindowPainter::RenderTestLine()
-{
 
-    RenderLineSplodge();
-    RenderFillSplodge();
-    BezierSeg* segs = new BezierSeg[2];
-    segs[0] = { {100,600},{150,450},{100,300} };
-    segs[1] = { {100,300},{80,250},{100,200} };
-
-    BezierSeg* segB = new BezierSeg;
-    *segB = { {100,300},{135,300},{170,250} };
-
-    BezierSeg* segC = new BezierSeg;
-    *segC = { {100,600},{135,600},{210,520} };
-    
-    RenderBezierFill(this->fillSplodge, segC, 1, 1.1, 0.2);
-    RenderBezierOutline(this->lineSplodge, segC, 1, 0.5, 0.1);
-
-    RenderBezierFill(this->fillSplodge, segs, 2, 3.5, 0.5);
-    RenderBezierOutline(this->lineSplodge, segs, 2,2,0.25);
-
-    RenderBezierFill(this->fillSplodge, segB, 1, 1.1, 0.2);
-    RenderBezierOutline(this->lineSplodge, segB, 1, 0.5, 0.1);
-
-    delete[] segs;
-    delete segB;
-    delete segC;
-}
 
 
 
