@@ -33,7 +33,7 @@ private:
 
 	
 	bool PaintGrid(GardenState*);
-	bool RenderTileTexture(GardenState*);
+	bool RenderTileTexture(int);
 	bool RenderLineSplodge();
 	bool RenderFillSplodge();
 	void GetLightingCoefficients(GardenState*);

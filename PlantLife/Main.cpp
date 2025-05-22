@@ -75,6 +75,7 @@ int main(int argc, char* argv[]) {
                     quit = true;
                 }
 
+                /*
                 //Tracking mouse
                 if (e.type == SDL_EVENT_MOUSE_MOTION || e.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
                 {
@@ -82,6 +83,7 @@ int main(int argc, char* argv[]) {
                     SDL_GetMouseState(&mouseX, &mouseY);
                     world.garden->sun.screenPos = { mouseX, mouseY };
                 }
+                */
             }
             if (!world.RenderScene())
             {

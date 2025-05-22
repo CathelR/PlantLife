@@ -40,7 +40,7 @@ void GardenState::GenerateGrid()
 			float lerpedY = ((float)4 / (float)gridSize) * (float)y;
 			float lerpedX = ((float)4 / (float)gridSize) * (float)x;
 			this->grid[x][y].height = perlinEngine.Noise(lerpedX, lerpedY);
-			this->grid[x][y].screenCoord.y += (this->grid[x][y].height*10) + 3*(float)x + 3*(float)y;
+			this->grid[x][y].screenCoord.y += (this->grid[x][y].height*15) + 3*(float)x + 3*(float)y;
 			this->grid[x][y].centerPos.x = this->grid[x][y].screenCoord.x + this->tileSize / 2;
 			this->grid[x][y].centerPos.y = this->grid[x][y].screenCoord.y + this->tileSize / 4;
 		}
@@ -52,7 +52,6 @@ bool GardenState::GeneratePlants()
 {
 	GridSquare* gS = GetGridSquare(5, 5);
 	Plant* plant = new Plant;
-	plant = new Plant;
 	plant->rootPos.x = gS->centerPos.x;
 	plant->rootPos.y = gS->centerPos.y;
 	plant->main = new Branch;

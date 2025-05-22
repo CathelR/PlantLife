@@ -34,6 +34,11 @@ WindowPainter::WindowPainter(int screenResX, int screenResY, int tileSize)
     {
         SDL_Log("Failed To Create Splodge Texture: %s\n", SDL_GetError());
     }
+
+    if (!RenderTileTexture(tileSize))
+    {
+        SDL_Log("Failed To Render tile texture: %s\n", SDL_GetError());
+    }
 }
 
 WindowPainter::~WindowPainter()
@@ -49,10 +54,7 @@ WindowPainter::~WindowPainter()
 bool WindowPainter::PerformRenderCycle(GardenState* garden)
 {
     GetLightingCoefficients(garden);
-    if (!RenderTileTexture(garden))
-    {
-        return false;
-    }
+    
     if (!SDL_SetRenderTarget(this->wRenderer, nullptr))
     {
         SDL_Log("Failed to set render target back to window: %s\n", SDL_GetError());
@@ -72,10 +74,10 @@ bool WindowPainter::PerformRenderCycle(GardenState* garden)
 
 
 //What happens if we fail to render the texture?
-bool WindowPainter::RenderTileTexture(GardenState* garden)
+bool WindowPainter::RenderTileTexture(int tileSize)
 {
-    int xSize = garden->GetTileSize();
-    int ySize = garden->GetTileSize();
+    int xSize = tileSize;
+    int ySize = tileSize;
 
     //R&B range from 0.1->0.4
     //G Ranges from  0.3->1
@@ -95,84 +97,102 @@ bool WindowPainter::RenderTileTexture(GardenState* garden)
     //Top----------------------------------------
     vertices[0].position.x = xSize / 2;
     vertices[0].position.y = ySize / 2;
-    vertices[0].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    //vertices[0].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    vertices[0].color = { 0.3,0.9,0.3 };
     vertices[0].color.a = 1;
     vertices[1].position.x = xSize / 2;
     vertices[1].position.y = 0;
-    vertices[1].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    //vertices[1].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    vertices[1].color = { 0.3,0.8,0.3 };
     vertices[1].color.a = 1;
     vertices[2].position.x = 0;
     vertices[2].position.y = ySize / 4;
-    vertices[2].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    //vertices[2].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    vertices[2].color = { 0.3,0.8,0.3 };
     vertices[2].color.a = 1;
     SDL_RenderGeometry(this->wRenderer, nullptr, vertices, 3, NULL, 0);
     vertices[0].position.x = xSize / 2;
     vertices[0].position.y = ySize / 2;
-    vertices[0].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    //vertices[0].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    vertices[0].color = { 0.3,0.9,0.3 };
     vertices[0].color.a = 1;
     vertices[1].position.x = xSize / 2;
     vertices[1].position.y = 0;
-    vertices[1].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    //vertices[1].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    vertices[1].color = { 0.3,0.8,0.3 };
     vertices[1].color.a = 1;
     vertices[2].position.x = xSize - 1;
     vertices[2].position.y = ySize / 4;
-    vertices[2].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    //vertices[2].color = { red_interp(this->topLightCoef),grn_interp(this->topLightCoef),blu_interp(this->topLightCoef) };
+    vertices[2].color = { 0.3,0.8,0.3 };
     vertices[2].color.a = 1;
     SDL_RenderGeometry(this->wRenderer, NULL, vertices, 3, NULL, 0);
 
     //Right--------------------------------------
     vertices[0].position.x = xSize / 2;
     vertices[0].position.y = ySize / 2;
-    vertices[0].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    //vertices[0].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    vertices[0].color = { 0.3,0.9,0.3 };
     vertices[0].color.a = 1;
     vertices[1].position.x = xSize - 1;
     vertices[1].position.y = ySize / 4;
-    vertices[1].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    //vertices[1].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    vertices[1].color = { 0.3,0.9,0.3 };
     vertices[1].color.a = 1;
     vertices[2].position.x = xSize - 1;
     vertices[2].position.y = 3 * (ySize / 4);
-    vertices[2].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    //vertices[2].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    vertices[2].color = { 0.3,0.8,0.3 };
     vertices[2].color.a = 1;
     SDL_RenderGeometry(this->wRenderer, NULL, vertices, 3, NULL, 0);
     vertices[0].position.x = xSize / 2;
     vertices[0].position.y = ySize / 2;
-    vertices[0].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    //vertices[0].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    vertices[0].color = { 0.3,0.9,0.3 };
     vertices[0].color.a = 1;
     vertices[1].position.x = xSize / 2;
     vertices[1].position.y = ySize - 1;
-    vertices[1].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    //vertices[1].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    vertices[1].color = { 0.3,0.9,0.3 };
     vertices[1].color.a = 1;
     vertices[2].position.x = xSize - 1;
     vertices[2].position.y = 3 * (ySize / 4);
-    vertices[2].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    //vertices[2].color = { red_interp(this->rightLightCoef),grn_interp(this->rightLightCoef),blu_interp(this->rightLightCoef) };
+    vertices[2].color = { 0.3,0.8,0.3 };
     vertices[2].color.a = 1;
     SDL_RenderGeometry(this->wRenderer, NULL, vertices, 3, NULL, 0);
 
     //Left---------------------------------------
     vertices[0].position.x = xSize / 2;
     vertices[0].position.y = ySize / 2;
-    vertices[0].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    //vertices[0].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    vertices[0].color = { 0.3,0.9,0.3 };
     vertices[0].color.a = 1;
     vertices[1].position.x = 0;
     vertices[1].position.y = ySize / 4;
-    vertices[1].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    //vertices[1].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    vertices[1].color = { 0.3,0.9,0.3 };
     vertices[1].color.a = 1;
     vertices[2].position.x = 0;
     vertices[2].position.y = 3 * (ySize / 4);
-    vertices[2].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    //vertices[2].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    vertices[2].color = { 0.3,0.8,0.3 };
     vertices[2].color.a = 1;
     SDL_RenderGeometry(this->wRenderer, NULL, vertices, 3, NULL, 0);
     vertices[0].position.x = xSize / 2;
     vertices[0].position.y = ySize / 2;
-    vertices[0].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    //vertices[0].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    vertices[0].color = { 0.3,0.9,0.3 };
     vertices[0].color.a = 1;
     vertices[1].position.x = xSize / 2;
     vertices[1].position.y = ySize - 1;
-    vertices[1].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    //vertices[1].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    vertices[1].color = { 0.3,0.9,0.3 };
     vertices[1].color.a = 1;
     vertices[2].position.x = 0;
     vertices[2].position.y = 3 * (ySize / 4);
-    vertices[2].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    //vertices[2].color = { red_interp(this->leftLightCoef),grn_interp(this->leftLightCoef),blu_interp(this->leftLightCoef) };
+    vertices[2].color = { 0.3,0.8,0.3 };
     vertices[2].color.a = 1;
     SDL_RenderGeometry(this->wRenderer, NULL, vertices, 3, NULL, 0);
 
